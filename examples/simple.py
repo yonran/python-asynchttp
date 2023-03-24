@@ -3,6 +3,7 @@
 #
 
 from __future__ import absolute_import
+from __future__ import print_function
 
 from asynchttp import Http
 from httplib2 import ServerNotFoundError
@@ -32,4 +33,4 @@ response, content = http.request('http://some.bad.address.that.does.not.exist/')
 try:
     response.status
 except ServerNotFoundError:
-    print "caught the expected exception"
+    print("caught the expected exception")

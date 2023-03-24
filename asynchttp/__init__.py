@@ -4,6 +4,7 @@
 
 from __future__ import absolute_import
 
+from future.utils import raise_
 __version__ = '0.0.4'
 __date__ = '2011-10-27'
 __author__ = 'Ross McFarland'
@@ -48,7 +49,7 @@ class Promise:
                 logger.debug('%s.fullfill invoking callback', self)
                 try:
                     self.__callback(self)
-                except Exception, e:
+                except Exception as e:
                     logger.exception('%s.fullfill callback threw an exception,'
                                      ' %s, original invocation:\n%s', self, e,
                                      ''.join(format_list(self.__stack)))
@@ -70,8 +71,8 @@ class Promise:
             logger.info('%s.wait: raising exception, %s, original invocation:'
                         '\n%s', self, self.caught_exc_info[1],
                         ''.join(format_list(self.__stack)))
-            raise self.caught_exc_info[0], self.caught_exc_info[1], \
-                    self.caught_exc_info[2]
+            raise_(self.caught_exc_info[0], self.caught_exc_info[1], \
+                    self.caught_exc_info[2])
 
     def get_response(self):
         self.wait()
@@ -167,7 +168,7 @@ class _Worker(Thread):
             try:
                 response, content = self.__handle.request(*args, **kwargs)
                 promise.fulfill(response, content)
-            except Exception, e:
+            except Exception as e:
                 logger.warn('%s.run: request raised exception: %s', self, e)
                 promise.fulfill(None, None, exc_info())
 

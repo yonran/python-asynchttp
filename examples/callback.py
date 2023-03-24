@@ -3,6 +3,7 @@
 #
 
 from __future__ import absolute_import
+from __future__ import print_function
 
 from asynchttp import Http
 from pprint import pprint
@@ -37,5 +38,5 @@ response, content = http.request('http://proximobus.appspot.com/agencies.json',
 
 try:
     response.status
-except SomeException, e:
-    print "caught the expected exception, caused by the callback: %s" % e
+except SomeException as e:
+    print("caught the expected exception, caused by the callback: %s" % e)
