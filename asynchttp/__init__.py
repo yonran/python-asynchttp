@@ -4,13 +4,16 @@
 
 from __future__ import absolute_import
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 from future.utils import raise_
 __version__ = '0.0.4'
 __date__ = '2011-10-27'
 __author__ = 'Ross McFarland'
 __credits__ = '''Ross McFarland'''
 
-from Queue import Queue
+from queue import Queue
 from sys import exc_info
 from threading import Event, Thread
 from traceback import extract_stack, format_list
@@ -27,7 +30,7 @@ except AttributeError:
     pass
 
 
-class Promise:
+class Promise(object):
 
     def __init__(self, callback=None):
         self.__flag = Event()
@@ -88,7 +91,7 @@ class Promise:
 
 # TODO: is there a better way to do this? it's really just a proxy that lets us
 # make sure the promise has been fulfilled
-class Response:
+class Response(object):
 
     def __init__(self, promise):
         self.__promise = promise
@@ -106,13 +109,13 @@ class Response:
         return self.__promise.get_response().__delitem__(key)
 
     def keys(self):
-        return self.__promise.get_response().keys()
+        return list(self.__promise.get_response().keys())
 
     def values(self):
-        return self.__promise.get_response().values()
+        return list(self.__promise.get_response().values())
 
     def items(self):
-        return self.__promise.get_response().items()
+        return list(self.__promise.get_response().items())
 
     def __iter__(self):
         return self.__promise.get_response().__iter__()
@@ -136,7 +139,7 @@ class Response:
         self.__promise.wait()
 
 
-class Content:
+class Content(object):
 
     def __init__(self, promise):
         self.__promise = promise
@@ -179,7 +182,7 @@ class _Worker(Thread):
         return '<Worker({0})>'.format(id(self))
 
 
-class Http:
+class Http(object):
     Client = httplib2.Http
 
     def __init__(self, max_workers=5, *args, **kwargs):
@@ -206,9 +209,9 @@ class Http:
     def __get_client(self):
         logger.debug('%s.__get_client', self)
         client = self.Client(*self.__client_args, **self.__client_kwargs)
-        for method, params in self.__client_methods.items():
+        for method, params in list(self.__client_methods.items()):
             getattr(client, method)(*params[0], **params[1])
-        for attribute, value in self.__dict__.items():
+        for attribute, value in list(self.__dict__.items()):
             # don't copy max_workers or any of our 'private' attrs
             if attribute != 'max_workers' \
                and not attribute.startswith('_Http__'):

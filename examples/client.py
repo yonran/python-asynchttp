@@ -4,6 +4,7 @@
 
 from __future__ import absolute_import
 
+from builtins import object
 from asynchttp import Http
 from pprint import pprint
 from json import loads
@@ -12,7 +13,7 @@ import logging
 fmt = '%(asctime)s %(thread)d %(name)s %(levelname)-8s %(message)s'
 #logging.basicConfig(level=logging.DEBUG, format=fmt)
 
-class PromiseObject:
+class PromiseObject(object):
 
     def fulfill(self, obj):
         self.__class__ = obj.__class__
@@ -25,7 +26,7 @@ class PromiseObject:
         self.response.wait()
         return getattr(self, name)
 
-class Agency:
+class Agency(object):
 
     def __init__(self, data, client):
         self.__dict__ = data
@@ -38,7 +39,7 @@ class Agency:
         return '<Agency({0})>'.format(self.id)
 
 
-class AgencyList:
+class AgencyList(object):
 
     def __init__(self, data, client):
         self.items = [Agency(item, client) for item in data['items']]
@@ -47,7 +48,7 @@ class AgencyList:
         return '<AgencyList({0})>'.format(self.items)
 
 
-class Route:
+class Route(object):
 
     def __init__(self, agency, data, client):
         self.__dict__ = data
@@ -61,7 +62,7 @@ class Route:
         return '<Route({0})>'.format(self.id)
 
 
-class RouteList:
+class RouteList(object):
 
     def __init__(self, agency, data, client):
         self.agency = agency
@@ -71,7 +72,7 @@ class RouteList:
         return '<RouteList({0}, {1})>'.format(self.agency, self.items)
 
 
-class RouteDetail:
+class RouteDetail(object):
 
     def __init__(self, agency, data):
         self.__dict__ = data
@@ -82,7 +83,7 @@ class RouteDetail:
                                                    self.display_name)
 
 
-class Client:
+class Client(object):
 
     def __init__(self, base_url=None, http=None):
         self.base_url = base_url if base_url is not None else \

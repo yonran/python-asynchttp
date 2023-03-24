@@ -29,9 +29,9 @@ class ResponseTest(TestCase):
         self.assertTrue('status' in response, 'status missing')
         self.assertEqual(response['status'], 200, 'unexpected status item')
         self.assertEqual(response.status, 200, 'unexpected status attr')
-        self.assertEqual(response.keys(), ['status'], 'unexpected keys')
-        self.assertEqual(response.values(), [200], 'unexpected values')
-        self.assertEqual(response.items(), [('status', 200)], 'unexpected values')
+        self.assertEqual(list(response.keys()), ['status'], 'unexpected keys')
+        self.assertEqual(list(response.values()), [200], 'unexpected values')
+        self.assertEqual(list(response.items()), [('status', 200)], 'unexpected values')
         self.assertEqual(len(response), 1, 'unexpected len')
         self.assertTrue(iter(response), 'iter failed')
 

@@ -4,6 +4,7 @@
 
 from __future__ import absolute_import
 
+from builtins import str
 from asynchttp import Promise
 from datetime import datetime, timedelta
 from sys import exc_info
