@@ -1,5 +1,5 @@
 coverage
-mockito
+mockito==1.4.0
 nose
 pep8
 unittest2==1.1.0

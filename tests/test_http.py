@@ -9,7 +9,7 @@ from builtins import range
 from asynchttp import Http, _Worker
 from datetime import datetime, timedelta
 from mockito import inorder, mock, verify, when
-from mockito.invocation import AnswerSelector, CompositeAnswer, Return
+from mockito.invocation import AnswerSelector
 from random import randrange
 from threading import Thread
 from time import sleep
@@ -17,27 +17,13 @@ from unittest2 import TestCase
 import httplib2
 
 
-# holy hack batman. i need a way to get a slow response, this is the best thing
-# i could come up with using mockito, i should probably turn this in to a patch
-class SleepingReturn(Return):
-
-    def __init__(self, delay, return_value):
-        Return.__init__(self, return_value)
-        self.delay = delay
-
-    def answer(self):
-        sleep(self.delay)
-        return Return.answer(self)
-
-
 def sleepingThenReturn(self, delay, *return_values):
+
     for return_value in return_values:
-        answer = SleepingReturn(delay, return_value)
-        if not self.answer:
-            self.answer = CompositeAnswer(answer)
-            self.invocation.stub_with(self.answer)
-        else:
-            self.answer.add(answer)
+        def answer(self):
+            sleep(delay)
+            return return_value
+        self.thenAnswer(answer)
     return self
 
 
