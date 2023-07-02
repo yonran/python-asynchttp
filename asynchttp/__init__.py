@@ -132,6 +132,9 @@ class Response(object):
         else:
             setattr(self.__promise.get_response(), name, value)
 
+    def __eq__(self, other):
+        return self.__promise.get_response() == other
+
     def done(self):
         return self.__promise.done()
 
