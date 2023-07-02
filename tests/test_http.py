@@ -236,7 +236,7 @@ class HttpTest(TestCase):
         h = Http()
         response, content = h.request(url)
         self.assertRaises(BooException, response.__getitem__, 'status')
-        self.assertRaises(BooException, content)
+        self.assertRaises(BooException, lambda: str(content))
 
         # verify mock
         verify(client).request(url)
