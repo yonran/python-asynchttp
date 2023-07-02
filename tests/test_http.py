@@ -4,7 +4,6 @@
 
 from __future__ import absolute_import
 
-from builtins import str
 from builtins import range
 from asynchttp import Http, _Worker
 from datetime import datetime, timedelta
